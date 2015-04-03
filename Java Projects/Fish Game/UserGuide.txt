@@ -1,0 +1,14 @@
+
+Use the arrow keys to move fish around!!
+
+Eat smaller fish to grow bigger!
+
+The more fish you eat, the bigger you grow and more point you score!
+
+Avoid being eaten by the bigger fish!
+
+
+
+
+
+ 

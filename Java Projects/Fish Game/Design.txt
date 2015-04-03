@@ -1,0 +1,223 @@
+Screen size: 800, 600
+
+***************************************************************************************
+AFish is an abstract class with fields that are common to both Fish class and Player class.
+
+Fields:
+int size - the size of the fish
+IColor color - the color of the fish
+CartPt position - the postion of the fish on the screen
+int xspeed - the speed at with the fish is moving in x (horizontal) direction
+
+Methods:
+abstract AFish move() 
+- Move the fish based the speed
+
+boolean collision(AFish other) 
+- Check if the fish collide with the other given fish by checking if the position of this fish and that fish overlap each other
+
+WorldImage drawLeft(WorldImage background) 
+- Draw the fish facing left, an ellipse as the body of the fish and triangle as the tail of the fish, the ellipse of width 10 times the size of the fish and height of 5 times the size of the fish, in the color of the fish.
+      
+WorldImage drawRight(WorldImage background) 
+- Draw the fish facing right, an ellipse as the body of the fish and triangle as the tail of the fish, the ellipse of width 10 times the size of the fish and height of 5 times the size of the fish, in the color of the fish.
+
+abstract WorldImage drawFish(WorldImage background)
+- Draw the fish onto a scene facing the appropriate direction
+
+boolean offLeft()
+- Check if the fish is moving off the left side of the screen
+
+boolean offRight()
+- Check if the fish is moving off the right side of the screen
+
+***************************************************************************************
+Fish is an AFish that is not a player and moves freely in the x-direction only
+It is a class that extends AFish
+
+inherit the fields from AFish
+Fields:
+int size - the size of the fish
+CartPt position - the postion of the fish on the screen
+int xspeed - the speed at with the fish is moving
+
+Constructors:
+Fish(int size, CartPt position, int xspeed)
+- it takes in the 3 args and construct a fish based on the 3 args
+
+Fish(CartPt position, int xspeed) 
+- it takes in 2 args (position and xspeed), and generate a fish with of a random size within range of 1-25 and the 2 args.
+
+Fish(int size, int xspeed) 
+- it takes in 2 args (size and xspeed) and construct a fish at a random y position within range of 5-595 of either sides of the screen depending on the xspeed, 
+if size < 0, then on the right of the screen, else on the left side of the screen
+
+Fish(int xspeed) {
+- it takes in 1 arg (xspeed) and construct a fish with random size within range of 1-25 and at a random y position within range of 5-595 of either sides of the screen depending on the xspeed, if size < 0, then on the right of the screen, else on the left side of the screen
+   
+
+Methods: // move this fish to new position based on speed
+Fish move() 
+- move the fish to new position based on the speed, if fish is off the screen, then return a new fish passing in just the xspeed, else update the fish by updating the position of the fish by adding xspeed of fish to the x position of the fish
+
+WorldImage drawFish(WorldImage background)
+- Draw the fish onto a scene facing the appropriate direction, if xspeed > 0 then draw the fish facing right, else the draw the fish facing left
+
+***************************************************************************************
+
+Player is an AFish that is controlled by the player
+It is a class that extends AFish
+
+Fields
+it inherits fields from AFish with two more fields
+
+Inherited fields
+int size - the size of the fish
+CartPt position - the postion of the fish on the screen
+int xspeed - the speed at with the fish is moving
+
+Two more fields
+int yspeed - the speed at with the fish is moving in y (vertical) direction
+boolean idleleft - is the fish facing left
+
+Constructor
+Player(int size, CartPt position, int xspeed, int yspeed, boolean idleleft)
+- it takes in the 5 args and construct a fish based on the 5 args
+
+Player(int size, CartPt position, int xspeed, int yspeed) 
+- it takes in the 4 args and construct a fish based on the 4 args with idleleft determined by the xspeed of the fish, if xspeed > 0, the idleleft is false, else idleleft is true
+
+Player move()
+- Move this player to new position based on speed
+- players can not move above or below the screen
+- it will loop around the sides:
+- player exit on the left side of the screen, it appear on the right side of the screen
+- player exit on the left side of the screen, it appear on the right side of the screen
+
+boolean edible(AFish other) {
+- Check if this fish can eat the other fish
+- if this fish's size is > the other fish's size
+
+Player moveOnKey(String ke)
+- Change the fish's (player's) speed and direction based on a key event
+- hands the four cases "left", "right", "up" and "down"
+- for "left" change xspeed to 20
+- for "right" change xspeed to -20
+- for "up" change xspeed to -10
+- for "down" change xspeed to 10
+- otherwise nothing is down to the fish
+       
+Player updateFishXSpeed(int xspeed)
+- Construct a new fish with a new xspeed, depending on the xspeed, then different constructor is used, if xspeed is not 0 then use the constructor that takes in 4 args, else using regular 5 args constructor, update the xspeed of fish
+
+Player updateFishYSpeed(int yspeed) 
+- Construct a new fish with given yspeed
+
+WorldImage drawFish(WorldImage background)
+- Draw the player onto a scene facing the appropriate direction, depending on idleleft, if true then draw fish facing left, else draw fish facing right
+
+Player grow() 
+- grow the player, by increasing the size by 1
+- used when player eat a fish smaller than it
+
+
+***************************************************************************************
+
+CartPt is class represents Cartesian point and extends Posn class
+
+double distance(Posn other)
+- calculate the distance between two cartersian points  
+
+***************************************************************************************
+
+List of Fish:
+interface ILoFish - list of fishes represented by either an empty list or a cons list
+MtLoFish is a class that implements ILoFish - empty list
+ConsLoFish is a class that implements ILoFish  - cons list
+- fields: Fish first - a Fish
+          ILoFish rest - a list of fish
+
+Methods:
+ILoFish moveAll()
+- Move all the fishes in this list
+- empty - return empty itself
+- cons - cons first fish moved onto the rest of the list of fish which is moved
+
+ILoFish generateFish(int n)
+- Add n new random fishes to this list
+- for both empty and cons
+  - return empty itself when n = 0
+  - cons a new fish created by the constructor that takes in only 1 arg
+    onto the list of n-1 fishes generated from generateFish(n-1)
+
+int length()
+- Compute the length of this list
+- empty - return 0
+- cons - add 1 to the length of the rest of the list
+
+ILoFish removeFish(Fish fish)
+- Remove a fish from this list if it is in the list
+- empty - return empty itself
+- cons - check and see if first in the list is the same as fish,
+         if they are the same then return the rest of the list
+         else cons the first on the rest of the list where fish will
+         be removed from the rest of the list (recursion)
+
+boolean collision(Player player)
+- Check if a player collides with any of the fish in this list
+- empty - return false
+- cons - return first in the list collide with player 
+                (using collision method from AFish class)
+                OR any fish in the rest of the list collide with player (recursion)
+
+Fish collider(Player player)
+- Find the fish that collides with this player
+- This function should only be called on lists that have collisions with this player
+- empty - throw an error when this case is reached
+- cons - if the first fish collides with the player, then return first fish
+         else check for the collider in the rest of the list
+    
+
+WorldImage drawAll(WorldImage background)
+- Draw all the fishes in this list onto a background
+- empty - Draw background
+- cons - Draw fish onto the given background (the rest of list of fish already on the
+         background) using the drawFish method on first
+  
+***************************************************************************************
+FishGame is a class that represent the world of the game
+Fields:
+ILoFish fishes - the background fishes that move horizontally on the screen
+                 contains fish that the player fish should eat to grow
+Player player - the player fish which in under the control of the player
+
+FishGame(ILoFish fishes, Player player)
+- regular constructor, which initialises the fields
+
+FishGame()
+- default/initial constructor that is used in creating the beginning world for the game
+- it constructs a list of 5 fishes and a player fish at the center (400, 300) on the screen
+
+
+public WorldImage makeImage() 
+- draw the player and the list of fishes onto the background
+- default background is defined here
+
+public FishGame onTick()
+- update the world based on every tick of the clock
+- move the list of fish and player after every tick
+- if there is a collision with the fish and any of the fish in the list of fish
+- and the collider is edible by player, 
+- then grow player and generate two more fish
+- and append it to the new list of fish where the collider is removed from the list
+
+
+public FishGame onKeyEvent(String ke) 
+- create a new FishGame with update down based on the key event
+
+public WorldEnd worldEnds() {
+- determine when the game end
+- when player is excessively large
+- OR when player is eaten by a fish bigger than it
+- the score of the game is the size of the fish
+- define default image and message shown as the ending screen
