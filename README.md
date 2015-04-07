@@ -3,6 +3,14 @@ This is a collection of different projects I've worked on that I am particularly
 
 Java Projects:
 
+-Forbidden Island:
+
+2 Player co-op game in which players work to collect parts and get to a helicopter before drowning
+
+Includes random procedurally generated terrain (Press T to make new terrains)
+
+player 1 moves with arrows and player 2 moves with wasd
+
 -Fish Game:
 
 Players control a fish and try to eat smaller fishes while avoiding bigger fishes
