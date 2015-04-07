@@ -112,7 +112,7 @@
                  "black")
            background))
 
-(big-bang (make-world '(((/ size 2) (/ size 2/3))) '(((/ size 2) (/ size 2))) (new-ball) 0 0 1)
+(big-bang (make-world '((300 300)) '((300 300)) (new-ball) 0 0 1)
           (on-tick tick)
           (to-draw render)
           (on-mouse change-center)
