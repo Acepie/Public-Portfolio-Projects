@@ -6,6 +6,7 @@
 (provide (contract-out
           (same-size? (-> matrix? matrix? boolean?))
           (matrix-addition (-> matrix? matrix? matrix?))
+          (distance-matrix (-> matrix? matrix? rational?))
           (column->row (-> column? row?))
           (first-column (-> matrix? column?))
           (rest-columns (-> (λ (m) (and (matrix? m)
@@ -68,6 +69,11 @@
 (define (matrix-addition matrix1 matrix2)
   (cond [(not (same-size? matrix1 matrix2)) "matrices not same size"]
         [else (map (λ (row1 row2) (map + row1 row2)) matrix1 matrix2)]))
+
+;;calculate the distance between two points
+(define (distance-matrix matrix1 matrix2)
+   (cond [(not (same-size? matrix1 matrix2)) "matrices not same size"]
+        [else (sqrt (foldr + 0 (map (λ (n1 n2) (sqr (+ n1 n2))) (first matrix1) (first matrix2))))]))
 
 ;; calculate the dot product of two rows
 (define (row-mult row1 row2)
