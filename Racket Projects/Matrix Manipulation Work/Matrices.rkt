@@ -73,7 +73,7 @@
 ;;calculate the distance between two points
 (define (distance-matrix matrix1 matrix2)
    (cond [(not (same-size? matrix1 matrix2)) "matrices not same size"]
-        [else (sqrt (foldr + 0 (map (λ (n1 n2) (sqr (+ n1 n2))) (first matrix1) (first matrix2))))]))
+        [else (sqrt (foldr + 0 (map (λ (n1 n2) (sqr (- n1 n2))) (first matrix1) (first matrix2))))]))
 
 ;; calculate the dot product of two rows
 (define (row-mult row1 row2)
