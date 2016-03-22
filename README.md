@@ -5,6 +5,8 @@ This is a collection of different projects I've worked on that I am particularly
 
 ##### -Forbidden Island:
 
+###### Removed due to instructor requests until end of semester
+
 2 Player co-op game in which players work to collect parts and get to a helicopter before drowning
 
 Includes random procedurally generated terrain (Press T to make new terrains)
