@@ -1,6 +1,24 @@
 # Public Portfolio Projects
 This is a collection of different projects I've worked on that I am particularly proud of and that showcase the skills I have learned
 
+## C++ Projects:
+
+#### -Ray Tracer:
+
+Basic ray tracer that renders a scene to a .ppm file
+
+Render features include reflection, refraction, and basic lighting
+
+Only supports spheres for now
+
+#### -Infinite Runner:
+
+Simple infinite runner game using OpenGL and freeglut.
+
+Levels are randomly generated.
+
+Press space to jump
+
 ## Java Projects:
 
 ##### -Forbidden Island:
@@ -11,7 +29,7 @@ This is a collection of different projects I've worked on that I am particularly
 
 Includes random procedurally generated terrain (Press T to make new terrains)
 
-player 1 moves with arrows and player 2 moves with wasd
+Player 1 moves with arrows and player 2 moves with wasd
 
 ##### -Fish Game:
 
