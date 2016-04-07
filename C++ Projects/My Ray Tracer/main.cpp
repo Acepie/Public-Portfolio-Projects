@@ -1,23 +1,25 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <c++/memory>
 #include "Vec3.h"
 #include "Sphere.h"
+#include "Triangle.h"
 
 #define MAX_DEPTH 5
 #define M_PI 3.1415926535
 
-Vec3 traceRay(const Ray &ray, std::vector<Sphere> spheres, int depth) {
+Vec3 traceRay(const Ray &ray, std::vector<std::shared_ptr<Shape>> shapes, int depth) {
 
   double closest = INFINITY;
-  const Sphere *closest_sphere = nullptr;
+  std::shared_ptr<Shape> closest_sphere = nullptr;
 
-  std::for_each(spheres.begin(), spheres.end(), [&](const Sphere &s) {
-    auto dist = s.collisionPoint(ray);
+  std::for_each(shapes.begin(), shapes.end(), [&](const std::shared_ptr<Shape> &s) {
+    auto dist = s->collisionPoint(ray);
 
     if (dist != 0 && dist < closest) {
       closest = dist;
-      closest_sphere = &s;
+      closest_sphere = s;
     }
   });
 
@@ -26,8 +28,7 @@ Vec3 traceRay(const Ray &ray, std::vector<Sphere> spheres, int depth) {
   }
 
   Vec3 hit_point = ray.origin + (ray.dir * closest);
-  Vec3 norm_vec = hit_point - closest_sphere->center;
-  norm_vec = norm_vec.norm();
+  Vec3 norm_vec = closest_sphere->normal(ray, closest);
   bool inside = false;
 
   if (norm_vec.dot(ray.dir) > 0) {
@@ -45,7 +46,7 @@ Vec3 traceRay(const Ray &ray, std::vector<Sphere> spheres, int depth) {
     Vec3 reflection_dir = ray.dir - norm_vec * 2 * norm_vec.dot(ray.dir);
     reflection_dir = reflection_dir.norm();
 
-    Vec3 reflection = traceRay(Ray{reflection_dir, hit_point + norm_vec * 0.0001}, spheres, depth + 1);
+    Vec3 reflection = traceRay(Ray{reflection_dir, hit_point + norm_vec * 0.0001}, shapes, depth + 1);
 
     Vec3 refraction{0.0, 0.0, 0.0};
 
@@ -56,20 +57,20 @@ Vec3 traceRay(const Ray &ray, std::vector<Sphere> spheres, int depth) {
 
       Vec3 refract_dir = ray.dir * eta + norm_vec * (eta * cosi - sqrt(k));
       refract_dir = refract_dir.norm();
-      refraction = traceRay(Ray{refract_dir, hit_point - norm_vec * 0.0001}, spheres, depth + 1);
+      refraction = traceRay(Ray{refract_dir, hit_point - norm_vec * 0.0001}, shapes, depth + 1);
     }
 
     color = mul(refraction * (1 - fresnel) * closest_sphere->transparency
                     + (reflection * fresnel), closest_sphere->color);
   } else {
-    for (auto i = 0; i < spheres.size(); i++) {
-      if (spheres[i].emission != Vec3(0, 0, 0)) {
+    for (auto i = 0; i < shapes.size(); i++) {
+      if (shapes[i]->emission != Vec3(0, 0, 0)) {
         Vec3 transmission_rate{1.0, 1.0, 1.0};
-        Vec3 light_dir = spheres[i].center - hit_point;
+        Vec3 light_dir = shapes[i]->center - hit_point;
         light_dir = light_dir.norm();
-        for (auto j = 0; j < spheres.size(); j++) {
+        for (auto j = 0; j < shapes.size(); j++) {
           if (i != j) {
-            if (spheres[j].collisionPoint(Ray{light_dir, hit_point + norm_vec * 0.0001}) != 0) {
+            if (shapes[j]->collisionPoint(Ray{light_dir, hit_point + norm_vec * 0.0001}) != 0) {
               transmission_rate = Vec3{0, 0, 0};
               break;
             }
@@ -78,7 +79,7 @@ Vec3 traceRay(const Ray &ray, std::vector<Sphere> spheres, int depth) {
 
         color += mul(mul(closest_sphere->color, transmission_rate)
                          * std::max(0.0, norm_vec.dot(light_dir)),
-                     spheres[i].emission);
+                     shapes[i]->emission);
       }
     }
   }
@@ -88,17 +89,17 @@ Vec3 traceRay(const Ray &ray, std::vector<Sphere> spheres, int depth) {
 
 int main() {
 
-  std::vector<Sphere> spheres{};
+  std::vector<std::shared_ptr<Shape>> shapes{};
 
-  spheres.push_back(Sphere{Vec3{0.0, -100004.0, 0.0}, Vec3{0.8, 0.8, 0.8}, Vec3{0.0, 0.0, 0.0}, 100000.0, 0.0, 0.0});
+  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{0.0, -100004.0, 0.0}, Vec3{0.8, 0.8, 0.8}, Vec3{}, 100000.0, 0.0, 0.0}));
 
-  spheres.push_back(Sphere{Vec3{0.0, 0.0, -20}, Vec3{1.0, 0.32, 0.36}, Vec3{0.0, 0.0, 0.0}, 4, 0.8, 0.5});
-  spheres.push_back(Sphere{Vec3{5.0, -1.0, -15.0}, Vec3{0.9, 0.76, 0.46}, Vec3{0.0, 0.0, 0.0}, 2, 0.0, 0.0});
-  spheres.push_back(Sphere{Vec3{5.0, 0.0, -25.0}, Vec3{0.65, 0.77, 0.97}, Vec3{0.0, 0.0, 0.0}, 3, 0.3, 0.0});
-  spheres.push_back(Sphere{Vec3{-5.5, 0.0, -15.0}, Vec3{0.9, 0.9, 0.9}, Vec3{0.0, 0.0, 0.0}, 3, 0.5, 0.0});
+  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{0.0, 0.0, -20}, Vec3{1.0, 0.32, 0.36}, Vec3{}, 4, 0.8, 0.5}));
+  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{5.0, -1.0, -15.0}, Vec3{0.9, 0.76, 0.46}, Vec3{}, 2, 0.0, 0.0}));
+  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{5.0, 0.0, -25.0}, Vec3{0.65, 0.77, 0.97}, Vec3{}, 3, 0.3, 0.0}));
+  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{-5.5, 0.0, -15.0}, Vec3{0.9, 0.9, 0.9}, Vec3{}, 3, 0.5, 0.0}));
+  shapes.push_back(std::make_shared<Triangle>(Triangle{Vec3{0.3, 0.9, 0.3}, Vec3{}, 0.0, 0.0, Vec3{0.0, 0.0, -40.0}, Vec3{10.0, 10.0, -50.0}, Vec3{0.0, 10.0, -50.0}}));
 
-  spheres.push_back(Sphere{Vec3{0.0, 200.0, -30.0}, Vec3{0.0, 0.0, 0.0}, Vec3{0.6, 0.6, 0.5}, 3, 0.0, 0.0});
-
+  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{0.0, 200.0, -30.0}, Vec3{}, Vec3{0.6, 0.6, 0.5}, 3, 0.0, 0.0}));
 
   float width = 1920, height = 1080;
 
@@ -113,7 +114,7 @@ int main() {
       double y = (1 - 2 * ((j + 0.5) / height)) * ang;
       Vec3 dir{x, y, -1};
       dir = dir.norm();
-      *pix = traceRay(Ray{dir, Vec3{0.0, 0.0, 0.0}}, spheres, 0);
+      *pix = traceRay(Ray{dir, Vec3{0.0, 0.0, 0.0}}, shapes, 0);
     }
   }
 

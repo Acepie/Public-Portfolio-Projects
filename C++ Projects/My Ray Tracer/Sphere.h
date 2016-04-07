@@ -3,14 +3,13 @@
 
 #include "Vec3.h"
 #include "Ray.h"
+#include "Shape.h"
 
 #include <cmath>
 
-class Sphere {
+class Sphere : public Shape {
  public:
-  Vec3 center, color, emission;
-  double radius, reflectivity, transparency;
-
+  double radius;
 
   Sphere(const Vec3 &center,
          const Vec3 &color,
@@ -18,15 +17,15 @@ class Sphere {
          double radius,
          double reflectivity,
          double transparency)
-      : center(center), color(color), emission(emission), radius(radius), reflectivity(reflectivity),
-        transparency(transparency) { }
+      : Shape(center, color, emission, reflectivity, transparency), radius(radius) {
+  }
 
   bool insideSphere(const Vec3& point) {
     return center.dist(point) < radius;
   }
 
   //if ray collides with sphere returns the distance along the ray else returns 0
-  double collisionPoint(const Ray& ray) const {
+  virtual double collisionPoint(const Ray& ray) const {
     Vec3 diff = center - ray.origin;
 
     double diff_dot_ray = diff.dot(ray.dir);
@@ -46,6 +45,13 @@ class Sphere {
     } else {
       return 0;
     }
+  }
+
+  virtual Vec3 normal(const Ray &ray, double dist) const override {
+    Vec3 norm_vec = ray.origin + (ray.dir * dist) - center;
+    norm_vec = norm_vec.norm();
+
+    return norm_vec;
   }
 };
 

@@ -9,7 +9,7 @@ Basic ray tracer that renders a scene to a .ppm file
 
 Render features include reflection, refraction, and basic lighting
 
-Only supports spheres for now
+Only supports spheres and triangles for now
 
 #### -Infinite Runner:
 
