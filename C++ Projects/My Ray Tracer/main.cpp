@@ -9,19 +9,24 @@
 #define MAX_DEPTH 5
 #define M_PI 3.1415926535
 
-Vec3 traceRay(const Ray &ray, std::vector<std::shared_ptr<Shape>> shapes, int depth) {
+Vec3 traceRay(const Ray &ray, std::vector<std::unique_ptr<Shape>> &shapes, int depth) {
 
   double closest = INFINITY;
-  std::shared_ptr<Shape> closest_sphere = nullptr;
 
-  std::for_each(shapes.begin(), shapes.end(), [&](const std::shared_ptr<Shape> &s) {
-    auto dist = s->collisionPoint(ray);
+  int ind = 0;
+  int bestInd = 0;
+
+  for (auto iter = shapes.begin(); iter != shapes.end(); iter++) {
+    auto dist = (*iter)->collisionPoint(ray);
 
     if (dist != 0 && dist < closest) {
       closest = dist;
-      closest_sphere = s;
+      bestInd = ind;
     }
-  });
+    ind++;
+  };
+
+  Shape *closest_sphere = shapes[bestInd].get();
 
   if (closest == INFINITY) {
     return Vec3{126.0 / 255.0, 192.0 / 255.0, 238.0 / 255.0};
@@ -61,7 +66,7 @@ Vec3 traceRay(const Ray &ray, std::vector<std::shared_ptr<Shape>> shapes, int de
     }
 
     color = mul(refraction * (1 - fresnel) * closest_sphere->transparency
-                    + (reflection * fresnel), closest_sphere->color);
+                    + (reflection * fresnel * closest_sphere->reflectivity), closest_sphere->color);
   } else {
     for (auto i = 0; i < shapes.size(); i++) {
       if (shapes[i]->emission != Vec3(0, 0, 0)) {
@@ -89,17 +94,21 @@ Vec3 traceRay(const Ray &ray, std::vector<std::shared_ptr<Shape>> shapes, int de
 
 int main() {
 
-  std::vector<std::shared_ptr<Shape>> shapes{};
+  std::vector<std::unique_ptr<Shape>> shapes{};
 
-  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{0.0, -100004.0, 0.0}, Vec3{0.8, 0.8, 0.8}, Vec3{}, 100000.0, 0.0, 0.0}));
+  shapes.push_back(std::make_unique<Sphere>(Sphere{Vec3{0.0, -100004.0, 0.0}, Vec3{0.8, 0.8, 0.8}, Vec3{}, 100000.0,
+                                                   0.0, 0.0}));
 
-  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{0.0, 0.0, -20}, Vec3{1.0, 0.32, 0.36}, Vec3{}, 4, 0.8, 0.5}));
-  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{5.0, -1.0, -15.0}, Vec3{0.9, 0.76, 0.46}, Vec3{}, 2, 0.0, 0.0}));
-  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{5.0, 0.0, -25.0}, Vec3{0.65, 0.77, 0.97}, Vec3{}, 3, 0.3, 0.0}));
-  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{-5.5, 0.0, -15.0}, Vec3{0.9, 0.9, 0.9}, Vec3{}, 3, 0.5, 0.0}));
-  shapes.push_back(std::make_shared<Triangle>(Triangle{Vec3{0.3, 0.9, 0.3}, Vec3{}, 0.0, 0.0, Vec3{0.0, 0.0, -40.0}, Vec3{10.0, 10.0, -50.0}, Vec3{0.0, 10.0, -50.0}}));
+  shapes.push_back(std::make_unique<Sphere>(Sphere{Vec3{0.0, 0.0, -20}, Vec3{1.0, 0.32, 0.36}, Vec3{}, 4, 0.5, 0.0}));
+  shapes.push_back(std::make_unique<Sphere>(Sphere{Vec3{5.0, -1.0, -15.0}, Vec3{0.9, 0.76, 0.46}, Vec3{}, 2, 0.0,
+                                                   0.0}));
+  shapes.push_back(std::make_unique<Sphere>(Sphere{Vec3{5.0, 0.0, -25.0}, Vec3{0.65, 0.77, 0.97}, Vec3{}, 3, 0.3,
+                                                   0.0}));
+  shapes.push_back(std::make_unique<Sphere>(Sphere{Vec3{-5.5, 0.0, -15.0}, Vec3{0.9, 0.9, 0.9}, Vec3{}, 3, 0.5, 0.0}));
+  shapes.push_back(std::make_unique<Triangle>(Triangle{Vec3{0.3, 0.9, 0.3}, Vec3{}, 0.0, 0.0, Vec3{0.0, 0.0, -40.0},
+                                                       Vec3{10.0, 10.0, -50.0}, Vec3{0.0, 10.0, -50.0}}));
 
-  shapes.push_back(std::make_shared<Sphere>(Sphere{Vec3{0.0, 200.0, -30.0}, Vec3{}, Vec3{0.6, 0.6, 0.5}, 3, 0.0, 0.0}));
+  shapes.push_back(std::make_unique<Sphere>(Sphere{Vec3{0.0, 200.0, -30.0}, Vec3{}, Vec3{0.6, 0.6, 0.5}, 3, 0.0, 0.0}));
 
   float width = 1920, height = 1080;
 
