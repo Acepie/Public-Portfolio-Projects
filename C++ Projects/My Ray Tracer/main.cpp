@@ -68,14 +68,14 @@ Vec3 traceRay(const Ray &ray, std::vector<std::unique_ptr<Shape>> &shapes, int d
     color = mul(refraction * (1 - fresnel) * closest_sphere->transparency
                     + (reflection * fresnel * closest_sphere->reflectivity), closest_sphere->color);
   } else {
-    for (auto i = 0; i < shapes.size(); i++) {
-      if (shapes[i]->emission != Vec3(0, 0, 0)) {
+    for (auto & shapeI : shapes) {
+      if (shapeI->emission != Vec3(0, 0, 0)) {
         Vec3 transmission_rate{1.0, 1.0, 1.0};
-        Vec3 light_dir = shapes[i]->center - hit_point;
+        Vec3 light_dir = shapeI->center - hit_point;
         light_dir = light_dir.norm();
-        for (auto j = 0; j < shapes.size(); j++) {
-          if (i != j) {
-            if (shapes[j]->collisionPoint(Ray{light_dir, hit_point + norm_vec * 0.0001}) != 0) {
+        for (auto & shapeJ : shapes) {
+          if (shapeI != shapeJ) {
+            if (shapeJ->collisionPoint(Ray{light_dir, hit_point + norm_vec * 0.0001}) != 0) {
               transmission_rate = Vec3{0, 0, 0};
               break;
             }
@@ -84,7 +84,7 @@ Vec3 traceRay(const Ray &ray, std::vector<std::unique_ptr<Shape>> &shapes, int d
 
         color += mul(mul(closest_sphere->color, transmission_rate)
                          * std::max(0.0, norm_vec.dot(light_dir)),
-                     shapes[i]->emission);
+                     shapeI->emission);
       }
     }
   }
