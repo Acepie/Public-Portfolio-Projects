@@ -16,8 +16,8 @@ Vec3 traceRay(const Ray &ray, std::vector<std::unique_ptr<Shape>> &shapes, int d
   int ind = 0;
   int bestInd = 0;
 
-  for (auto iter = shapes.begin(); iter != shapes.end(); iter++) {
-    auto dist = (*iter)->collisionPoint(ray);
+  for (auto &shape : shapes) {
+    auto dist = shape->collisionPoint(ray);
 
     if (dist != 0 && dist < closest) {
       closest = dist;
