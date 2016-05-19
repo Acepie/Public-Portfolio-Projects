@@ -14,7 +14,7 @@ TEST(CanIEvenTest, TrivialTest) {
   EXPECT_EQ(2, 1 + 1);
 }
 
-int main() {
+int main(int argc, char **argv) {
 
   std::vector<std::unique_ptr<Shape>> shapes{};
 
@@ -61,5 +61,6 @@ int main() {
   ofs.close();
   delete[] image;
 
-  return 0;
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
