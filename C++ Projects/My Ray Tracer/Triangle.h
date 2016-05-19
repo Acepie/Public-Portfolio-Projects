@@ -24,7 +24,7 @@ class Triangle: public Shape {
 
 
 
-  virtual double collisionPoint(const Ray &ray) const override {
+  virtual double collisionPointDist(const Ray &ray) const override {
 
     Vec3 r1 = v1 - v0;
     Vec3 r2 = v2 - v0;

@@ -25,7 +25,7 @@ class Sphere : public Shape {
   }
 
   //if ray collides with sphere returns the distance along the ray else returns 0
-  virtual double collisionPoint(const Ray& ray) const {
+  virtual double collisionPointDist(const Ray &ray) const {
     Vec3 diff = center - ray.origin;
 
     double diff_dot_ray = diff.dot(ray.dir);

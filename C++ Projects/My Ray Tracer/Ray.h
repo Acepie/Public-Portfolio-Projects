@@ -3,6 +3,10 @@
 
 
 #include "Vec3.h"
+
+/**
+ * Represents a basic ray from a point in 3D space in any direction
+ */
 class Ray {
  public:
 
