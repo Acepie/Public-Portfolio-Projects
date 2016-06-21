@@ -3,7 +3,7 @@ This is a collection of different projects I've worked on that I am particularly
 
 ## C++ Projects:
 
-#### -Ray Tracer:
+##### -Ray Tracer:
 
 Basic ray tracer that renders a scene to a .ppm file
 
@@ -11,7 +11,7 @@ Render features include reflection, refraction, and basic lighting
 
 Only supports spheres and triangles for now
 
-#### -Infinite Runner:
+##### -Infinite Runner:
 
 Simple infinite runner game using OpenGL and freeglut.
 
@@ -19,17 +19,25 @@ Levels are randomly generated.
 
 Press space to jump
 
+## C# Projects:
+
+##### -2D Sidescroller Demo
+
+Simple Unity scene showcasing a custom player controller
+
+Player has ability to run, jump, and wall jump
+
+Animations based on player state
+
 ## Java Projects:
 
-##### -Forbidden Island:
+##### -Music Editor:
 
-###### Removed due to instructor requests until end of semester
+GUI application that allows user to read, write, and play music.
 
-2 Player co-op game in which players work to collect parts and get to a helicopter before drowning
+Music can be loaded from text files
 
-Includes random procedurally generated terrain (Press T to make new terrains)
-
-Player 1 moves with arrows and player 2 moves with wasd
+Supports various instruments
 
 ##### -Fish Game:
 
