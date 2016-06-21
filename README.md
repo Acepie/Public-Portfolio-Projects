@@ -33,6 +33,8 @@ Animations based on player state
 
 ##### -Music Editor:
 
+###### Completed in collaboration with Jonah Min
+
 GUI application that allows user to read, write, and play music.
 
 Music can be loaded from text files
