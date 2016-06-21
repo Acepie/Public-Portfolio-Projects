@@ -35,6 +35,9 @@ Animations based on player state
 
 ###### Completed in collaboration with Jonah Min
 
+###### Moved to [private repository](https://github.com/Acepie/Music-Editor) due to risk of plagiarism
+###### For access to repo [email me here](mailto:radwan.a@husky.neu.edu)
+
 GUI application that allows user to read, write, and play music.
 
 Music can be loaded from text files
