@@ -1,0 +1,9 @@
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\bin\Debug\WindowsFormsQuickStart.exe.config
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\bin\Debug\WindowsFormsQuickStart.exe
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\bin\Debug\WindowsFormsQuickStart.pdb
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.csprojResolveAssemblyReference.cache
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.Form1.resources
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.Properties.Resources.resources
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.csproj.GenerateResource.Cache
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.exe
+c:\users\ameen\documents\visual studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.pdb

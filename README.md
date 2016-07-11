@@ -29,6 +29,22 @@ Player has ability to run, jump, and wall jump
 
 Animations based on player state
 
+##### -Painter
+
+Painting application where users can draw ellipses, rectangles, and lines
+
+Users can pick from different shapes and use a color picker to select the color
+
+###### Instructions:
+
+Press P to open color dialog
+
+Press C to clear the current frame
+
+Press S to toggle drawing preview
+
+Press Escape to quit
+
 ## Java Projects:
 
 ##### -Music Editor:
