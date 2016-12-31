@@ -4,7 +4,7 @@
 
 #include "Tracer.h"
 
-Vec3 Tracer::traceRay(const Ray &ray, std::vector<std::unique_ptr<Shape>> &shapes, int depth) {
+Vec3 Tracer::traceRay(const Ray &ray, int depth) {
 
   double closest = INFINITY;
 
@@ -46,7 +46,7 @@ Vec3 Tracer::traceRay(const Ray &ray, std::vector<std::unique_ptr<Shape>> &shape
     Vec3 reflection_dir = ray.dir - norm_vec * 2 * norm_vec.dot(ray.dir);
     reflection_dir = reflection_dir.norm();
 
-    Vec3 reflection = traceRay(Ray{reflection_dir, hit_point + norm_vec * 0.0001}, shapes, depth + 1);
+    Vec3 reflection = traceRay(Ray{reflection_dir, hit_point + norm_vec * 0.0001}, depth + 1);
 
     Vec3 refraction{0.0, 0.0, 0.0};
 
@@ -57,7 +57,7 @@ Vec3 Tracer::traceRay(const Ray &ray, std::vector<std::unique_ptr<Shape>> &shape
 
       Vec3 refract_dir = ray.dir * eta + norm_vec * (eta * cosi - sqrt(k));
       refract_dir = refract_dir.norm();
-      refraction = traceRay(Ray{refract_dir, hit_point - norm_vec * 0.0001}, shapes, depth + 1);
+      refraction = traceRay(Ray{refract_dir, hit_point - norm_vec * 0.0001}, depth + 1);
     }
 
     color = mul(refraction * (1 - fresnel) * closest_sphere->transparency

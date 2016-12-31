@@ -19,15 +19,20 @@
  */
 class Tracer {
 
- public:
+const std::vector<std::unique_ptr<Shape>> shapes;
 
-/**
- * Traces a ray to determine the proper color to display at a given point
- * @param ray the ray to follow
- * @param shapes a list of all the shapes that the ray can collide with
- * @param the current ray trace depth
- */
-  Vec3 traceRay(const Ray &ray, std::vector <std::unique_ptr<Shape>> &shapes, int depth);
+ public:
+  
+  Tracer(std::vector<std::unique_ptr<Shape>> &shapes) :shapes(std::move(shapes)) {}
+
+
+  /**
+   * Traces a ray to determine the proper color to display at a given point
+   * @param ray the ray to follow
+   * @param shapes a list of all the shapes that the ray can collide with
+   * @param the current ray trace depth
+   */
+  Vec3 traceRay(const Ray &ray, int depth);
 };
 
 
