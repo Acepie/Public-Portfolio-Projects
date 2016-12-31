@@ -86,3 +86,30 @@ Vec3 Tracer::traceRay(const Ray &ray, int depth) {
 
   return color + closest_sphere->emission;
 }
+
+void Tracer::traceScene(const float width, const float height) {
+  Vec3 *image = new Vec3[(int) width * (int) height];
+  Vec3 *pix = image;
+  double fov = 60.0, asp = width / (double) height;
+  double ang = tan(M_PI * 0.5 * fov / 180.);
+
+  for (auto j = 0; j < height; j++) {
+    for (auto i = 0; i < width; i++, pix++) {
+      double x = (2 * ((i + 0.5) / width) - 1) * ang * asp;
+      double y = (1 - 2 * ((j + 0.5) / height)) * ang;
+      Vec3 dir{x, y, -1};
+      dir = dir.norm();
+      *pix = traceRay(Ray{dir, Vec3{0.0, 0.0, 0.0}}, 0);
+    }
+  }
+
+  std::ofstream ofs("./testscene.ppm", std::ios::out | std::ios::binary);
+  ofs << "P6\n" << width << " " << height << "\n255\n";
+  for (unsigned i = 0; i < width * height; ++i) {
+    ofs << (unsigned char) (std::min(float(1), (const float &) image[i].x) * 255) <<
+        (unsigned char) (std::min(float(1), (const float &) image[i].y) * 255) <<
+        (unsigned char) (std::min(float(1), (const float &) image[i].z) * 255);
+  }
+  ofs.close();
+  delete[] image;
+}
