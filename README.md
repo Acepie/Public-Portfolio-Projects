@@ -76,10 +76,6 @@ Made a library for using matrices and standard matrix operations such as multipl
 
 Made a simple game using this library in which players spin around a point and move their rotation point to navigate
 
-##### -Microsoft Code Competition:
-
-Made some programs in a local microsoft code competition
-
 ##### -Tetris:
 
 Tetris implemented in Racket
