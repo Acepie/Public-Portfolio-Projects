@@ -78,7 +78,7 @@ Tetris implemented in Racket
 
 ##### -Tanks:
 
-###### Completed in collaboration with (Alex Grundwerg)[https://github.com/agrundw]
+###### Completed in collaboration with [Alex Grundwerg](https://github.com/agrundw)
 
 2 player turn based tank game based on game [Pocket Tanks](http://www.blitwise.com/ptanks.html)
 
