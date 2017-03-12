@@ -1,5 +1,4 @@
 #include <vector>
-#include <algorithm>
 #include <c++/memory>
 #include "Vec3.h"
 #include "Sphere.h"
@@ -14,7 +13,6 @@ int main(int argc, char **argv) {
     Vec3{0.8, 0.8, 0.8}, 
     Vec3{}, 
     100000.0, 0.0, 0.0}));
-
   shapes.push_back(std::make_unique<Sphere>(Sphere{Vec3{0.0, 0.0, -20}, 
     Vec3{1.0, 0.32, 0.36}, 
     Vec3{}, 
