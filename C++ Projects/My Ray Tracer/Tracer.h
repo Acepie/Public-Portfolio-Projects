@@ -2,6 +2,7 @@
 // Created by Ameen on 5/18/2016.
 //
 
+#define _USE_MATH_DEFINES
 #define MAX_DEPTH 5
 
 #ifndef MY_RAY_TRACER_TRACER_H
@@ -11,6 +12,7 @@
 #include <c++/memory>
 #include <c++/vector>
 #include <fstream>
+#include <math.h>
 
 #include "Vec3.h"
 #include "Ray.h"
