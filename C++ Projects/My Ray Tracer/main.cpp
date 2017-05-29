@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 
     Tracer tracer{shapes};
 
-    const float width = 800, height = 600;
+    const float width = 400, height = 300;
 
     tracer.traceScene(width, height);
 

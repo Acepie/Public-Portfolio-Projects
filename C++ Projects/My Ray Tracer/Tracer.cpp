@@ -32,19 +32,17 @@ Vec3 Tracer::traceRay(const Ray &ray, int depth) {
     bool inside = false;
 
     if (norm_vec.dot(ray.dir) > 0) {
-        norm_vec = -norm_vec;
+        norm_vec *= -1;
         inside = true;
     }
 
     Vec3 color{0, 0, 0};
 
     if ((closest_sphere->reflectivity > 0 || closest_sphere->transparency > 0) && depth < MAX_DEPTH) {
-        double facing_amount = -(norm_vec.dot(ray.dir));
+        double fresnel = .1 + .9 * pow(1 + norm_vec.dot(ray.dir), 3);
 
-        double fresnel = .1 + .9 * pow(1 - facing_amount, 3);
-
-        Vec3 reflection_dir = ray.dir - norm_vec * 2 * norm_vec.dot(ray.dir);
-        reflection_dir = reflection_dir.norm();
+        Vec3 reflection_dir = ray.dir - norm_vec * (2 * norm_vec.dot(ray.dir));
+        reflection_dir.norm();
 
         Vec3 reflection = traceRay(Ray{reflection_dir, hit_point + norm_vec * 0.0001}, depth + 1);
 
@@ -55,13 +53,14 @@ Vec3 Tracer::traceRay(const Ray &ray, int depth) {
             double cosi = -norm_vec.dot(ray.dir);
             double k = 1 - eta * eta * (1 - pow(cosi, 2));
 
-            Vec3 refract_dir = ray.dir * eta + norm_vec * (eta * cosi - sqrt(k));
-            refract_dir = refract_dir.norm();
+            Vec3 refract_dir = ray.dir * eta;
+            refract_dir += norm_vec * (eta * cosi - sqrt(k));
+            refract_dir.norm();
             refraction = traceRay(Ray{refract_dir, hit_point - norm_vec * 0.0001}, depth + 1);
         }
 
-        color = mul(refraction * (1 - fresnel) * closest_sphere->transparency
-                    + (reflection * fresnel * closest_sphere->reflectivity), closest_sphere->color);
+        color = mul(refraction * ((1 - fresnel) * closest_sphere->transparency)
+                    + (reflection * (fresnel * closest_sphere->reflectivity)), closest_sphere->color);
     } else {
         for (auto &shapeI : shapes) {
             if (shapeI->emission != Vec3(0, 0, 0)) {

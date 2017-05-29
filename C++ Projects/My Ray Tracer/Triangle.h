@@ -29,47 +29,28 @@ public:
 
         Vec3 r1 = v1 - v0;
         Vec3 r2 = v2 - v0;
-        Vec3 dist = v0 - ray.origin;
-        Vec3 norm = r1.cross(r2);
 
-        if (fabs(norm.dot(ray.dir)) < EPS) {
+        Vec3 p = ray.dir.cross(r2);
+        double det = r1.dot(p);
+
+        if (fabs(det) < EPS) {
             return 0;
         }
 
-        double ratio = norm.dot(dist) / norm.dot(ray.dir);
-
-        if (ratio < 0) {
+        double invDet = 1/det;
+        Vec3 t = ray.origin - v0;
+        double u = t.dot(p) * invDet;
+        if (u < 0 || u > 1) {
             return 0;
         }
 
-        Vec3 intersectPoint = ray.origin + (ray.dir * ratio);
-
-        double r12, r11, r22, ri1, ri2;
-        r12 = r1.dot(r2);
-        r11 = r1.dot(r1);
-        r22 = r2.dot(r2);
-        ri1 = r1.dot(intersectPoint - v0);
-        ri2 = r2.dot(intersectPoint - v0);
-
-        double s, t;
-
-        s = (r12 * ri2 - r22 * ri1) / (r12 * r12 - r11 * r22);
-
-        if (0 > s || 1 < s) {
+        Vec3 q = t.cross(r1);
+        double v = ray.dir.dot(q) * invDet;
+        if (v < 0 || u + v > 1) {
             return 0;
         }
 
-        t = (r12 * ri1 - r11 * ri2) / (r12 * r12 - r11 * r22);
-
-        if (0 > t || 1 < t) {
-            return 0;
-        }
-
-        if (0 > s + t || 1 < s + t) {
-            return 0;
-        }
-
-        return ratio;
+        return r2.dot(q) * invDet;
     }
 
     Vec3 normal(const Ray &ray, double dist) const override {

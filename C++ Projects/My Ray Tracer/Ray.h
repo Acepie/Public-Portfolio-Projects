@@ -8,11 +8,11 @@
  * Represents a basic ray from a point in 3D space in any direction
  */
 class Ray {
- public:
+public:
 
-  Ray(Vec3 dir, Vec3 origin) : dir(dir.norm()), origin(origin) { }
+    Ray(Vec3 dir, Vec3 origin) : dir(dir.norm()), origin(origin) {}
 
-  Vec3 dir, origin;
+    Vec3 dir, origin;
 
 };
 
