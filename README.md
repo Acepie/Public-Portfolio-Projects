@@ -66,11 +66,11 @@ Generate lines in a pattern based on prior lines and bit patterns
 
 ## Racket Projects:
 
-##### -Matrix Manipulation Work:
-
-Made a library for using matrices and standard matrix operations such as multiplication, scaling, transposition, and 2D geometric mappings
+##### -Spin To Win:
 
 Made a simple game using this library in which players spin around a point and move their rotation point to navigate
+
+Made a library for using matrices and standard matrix operations such as multiplication, scaling, transposition, and 2D geometric mappings
 
 ##### -Tetris:
 
