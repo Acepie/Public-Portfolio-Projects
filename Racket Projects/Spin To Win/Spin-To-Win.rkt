@@ -1,14 +1,19 @@
 #lang racket
 
-(require math racket/gui/base "Matrices.rkt")
+(require math
+         lux
+         lux/chaos/gui
+         lux/chaos/gui/key
+         lux/chaos/gui/mouse
+         pict
+         "Matrices.rkt")
 
 (define theta (/ pi 64))
-(define background (read-bitmap "gradientbackground.jpg"))
+(define background (bitmap "gradientbackground.jpg"))
 (define click-limit 5)
-(define instructions (read-bitmap "instructions.png"))
-(define size (send background get-width))
-(define width size)
-(define height size)
+(define instructions (bitmap "instructions.png"))
+(define width (pict-width background))
+(define height (pict-height background))
 
 ;; A world is a struct consisting of:
 ; - A Row Matrix representing the players position
@@ -21,44 +26,58 @@
 ; - running
 ; - paused
 ; - ended
-(struct world (playerpos center ballpos score clicks combo state) #:mutable)
+(struct world
+  (playerpos center ballpos score clicks combo state)
+  #:mutable
+  #:methods gen:word
+  [(define (word-fps w)
+     60.0)
+   (define (word-label s ft)
+     (lux-standard-label "Spin To Win" ft))
+   (define (word-output w)
+     (render w))
+   (define (word-event w e)
+     (cond
+       [(key-event? e) (onkey w e)]
+       [(mouse-event? e) (onmouse w e)]
+       [else w]))
+   (define (word-tick w)
+     (tick w))])
 
 ; create a new random ball
-(define (new-ball)
-  (row-matrix [(+ 51 (random (- size 100))) (+ 51 (random (- size 100)))]))
+(define (new-ball w h)
+  (row-matrix [(+ 51 (random (- w 100))) (+ 51 (random (- h 100)))]))
 
-(define base-world (world (row-matrix [(/ size 2) (/ size 2)])
-                          (row-matrix [(/ size 2) (/ size 2)])
-                          (new-ball) 0 0 1 "start"))
-
-(define current-world (struct-copy world base-world))
+(define (base-world w h)
+  (world (row-matrix [(/ w 2) (/ h 2)])
+         (row-matrix [(/ w 2) (/ h 2)])
+         (new-ball w h) 0 0 1 "start"))
 
 ; is the player colliding with a ball
 (define (colliding player ball)
   (> 20 (distance-matrix player ball)))
 
 ; calculate the next world on tick
-(define (tick)
+(define (tick current-world)
   (cond [(not (equal? "running" (world-state current-world)))
          current-world]
-        [(end current-world)
+        [(end current-world width height)
          (set-world-state! current-world "ended")
          current-world]
         [(colliding (world-playerpos current-world) (world-ballpos current-world))
-         (set-world-ballpos! current-world (new-ball))
+         (set-world-ballpos! current-world (new-ball width height))
          (set-world-score! current-world
                            (update-score current-world))
-         (set-world-clicks! current-world 0)
          (set-world-combo! current-world
-                           (if (>= 1 (world-clicks current-world))
-                               (add1 (world-combo current-world))
-                               1))
+                           (if (< 1 (world-clicks current-world))
+                               1
+                               (add1 (world-combo current-world))))
+         (set-world-clicks! current-world 0)
          current-world]
         [else
          (set-world-playerpos! current-world
                                (rotate-player current-world))
-         current-world])
-  (send canvas refresh-now))
+         current-world]))
 
 (define (update-score current-world)
   (if (>= 1 (world-clicks current-world))
@@ -85,118 +104,112 @@
   (matrix-ref row 0 1))
 
 ; draw world
-(define (render canvas dc)
-  (send dc clear)
-  (cond [(equal? (world-state current-world) "start")
-         (send dc draw-bitmap instructions
-               (- (/ size 2) (/ (send instructions get-width) 2))
-               (- (/ size 2) (/ (send instructions get-height) 2)))]
-        [(equal? (world-state current-world) "paused")
-         (render-world dc)
-         (render-gui dc)
-         (send dc set-pen "black" 20 'solid)
-         (let-values ([(w h d s) (send dc get-text-extent "paused")])
-           (send dc draw-text "paused"
-                 (- (/ size 2) (/ w 2))
-                 (- (/ size 2) (/ h 2)))
-           )]
-        [(equal? (world-state current-world) "ended")
-         (render-world dc)
-         (render-gui dc)
-         (send dc set-pen "black" 20 'solid)
-         (let*-values ([(str) (string-append "Game Over! You scored: " (~a (world-score current-world)))]
-                       [(w h d s) (send dc get-text-extent str)])
-           (send dc draw-text str (- (/ size 2) (/ w 2)) (- (/ size 2) (/ h 2))))]
-        [else 
-              (render-gui dc)
-              (render-world dc)]))
+(define (render current-world)
+  (λ (w h dc)
+    (send dc clear)
+    (cond [(equal? (world-state current-world) "start")
+           (draw-pict instructions dc
+                      (- (/ w 2) (/ (pict-width instructions) 2))
+                      (- (/ h 2) (/ (pict-height instructions) 2)))]
+          [(equal? (world-state current-world) "paused")
+           (render-gui current-world dc w h)
+           (render-world current-world dc)
+           (let-values ([(tw th d s) (send dc get-text-extent "paused")])
+             (draw-pict (text "paused" null 20) dc
+                        (- (/ w 2) (/ tw 2))
+                        (- (/ h 2) (/ th 2))))]
+          [(equal? (world-state current-world) "ended")
+           (render-gui current-world dc w h)
+           (render-world current-world dc)
+           (let*-values ([(str) (string-append "Game Over! You scored: " (~a (world-score current-world)))]
+                         [(tw th d s) (send dc get-text-extent str)])
+             (draw-pict (text str null 20) dc
+                        (- (/ w 2) (/ tw 2))
+                        (- (/ h 2) (/ th 2))))]
+          [else 
+           (render-gui current-world dc w h)
+           (render-world current-world dc)])))
 
 ; draw basic world information onto drawing context
-(define (render-gui dc)
-  (send dc draw-bitmap background 0 0)
-  (send dc set-pen "black" 20 'solid)
+(define (render-gui current-world dc width height)
+  (draw-pict background dc 0 0)
   (let*-values ([(str) (string-append "combo: " (~a (sub1 (world-combo current-world))))]
                 [(w h d s) (send dc get-text-extent str)])
-    (send dc draw-text str (- width 100) (- height 75 h)))
+    (draw-pict (text str null 20) dc
+               (- width 100 (/ w 2))
+               (- height 75 h)))
   (let*-values ([(str) (string-append "score: " (~a (world-score current-world)))]
                 [(w h d s) (send dc get-text-extent str)])
-    (send dc draw-text str (- width 100) (- height 100 h))))
+    (draw-pict (text str null 20) dc
+               (- width 100 (/ w 2))
+               (- height 100 h))))
 
 ; draw world objects such as player, ball, and center
-(define (render-world dc)
-  (send dc set-pen "blue" 20 'solid)
-  (send dc draw-point
-        (row->x (world-ballpos current-world)) (row->y (world-ballpos current-world)))
-  (send dc set-pen "black" 5 'solid)
-  (send dc draw-point
-        (row->x (world-center current-world)) (row->y (world-center current-world)))
-  (send dc set-pen "red" 40 'solid)
-  (send dc draw-point
-        (row->x (world-playerpos current-world)) (row->y (world-playerpos current-world)))
-  (send dc set-pen "black" 15 'solid)
+(define (render-world current-world dc)
+  (define GOAL_SIZE 20)
+  (define CENTER_SIZE 5)
+  (define PLAYER_SIZE 40)
+  (draw-pict (disk GOAL_SIZE #:color "blue") dc
+             (- (row->x (world-ballpos current-world)) (/ GOAL_SIZE 2))
+             (- (row->y (world-ballpos current-world)) (/ GOAL_SIZE 2)))
+  (draw-pict (disk CENTER_SIZE #:color "black") dc
+             (- (row->x (world-center current-world)) (/ CENTER_SIZE 2))
+             (- (row->y (world-center current-world)) (/ CENTER_SIZE 2)))
+  (draw-pict (disk PLAYER_SIZE #:color "red") dc
+             (- (row->x (world-playerpos current-world)) (/ PLAYER_SIZE 2))
+             (- (row->y (world-playerpos current-world)) (/ PLAYER_SIZE 2)))
   (let-values ([(w h d s) (send dc get-text-extent (~a (- click-limit (world-clicks current-world))))])
-    (send dc draw-text (~a (- click-limit (world-clicks current-world)))
-          (- (row->x (world-playerpos current-world)) (/ w 2))
-          (- (row->y (world-playerpos current-world)) (/ h 2)))))
+    (draw-pict (text (~a (- click-limit (world-clicks current-world))) null 15) dc
+               (- (row->x (world-playerpos current-world)) (/ w 2))
+               (- (row->y (world-playerpos current-world)) (/ h 2)))))
 
-; move the center to the posnition of the mouse click
-(define (on-mouse-event canvas me)
+; move the center to the position of the mouse click
+(define (onmouse current-world me)
   (cond [(and (equal? (world-state current-world) "start")
               (send me button-down? 'left))
-         (set-world-state! current-world "running")]
+         (set-world-state! current-world "running")
+         current-world]
         [(send me button-down? 'left)
          (set-world-center! current-world (row-matrix [(send me get-x) (send me get-y)]))
-         (set-world-clicks! current-world (add1 (world-clicks current-world)))]
-        [else 0]))
+         (set-world-clicks! current-world (add1 (world-clicks current-world)))
+         current-world]
+        [else current-world]))
 
 ; move the ball across the center on hitting space
-(define (onkey canvas ke)
+(define (onkey current-world ke)
   (cond [(equal? (world-state current-world) "start")
-         (set-world-state! current-world "running")]
+         (set-world-state! current-world "running")
+         current-world]
         [(eq? (send ke get-key-code) #\r)
-         (set! background (read-bitmap "gradientbackground.jpg"))
-         (set! current-world (struct-copy world base-world))
-         (send canvas refresh)]
+         (set! background (bitmap "gradientbackground.jpg"))
+         (set! current-world (base-world width height))
+         current-world]
         [(eq? (send ke get-key-code) #\space) 
          (set! theta (* -1 theta))
-         (send canvas refresh)]
+         current-world]
         [(and (eq? (send ke get-key-code) #\p) 
               (equal? (world-state current-world) "running"))
-         (set-world-state! current-world "paused") (send canvas refresh)]
+         (set-world-state! current-world "paused")
+         current-world]
         [(and (eq? (send ke get-key-code) #\p) 
               (equal? (world-state current-world) "paused"))
-         (set-world-state! current-world "running") (send canvas refresh)]
-        [else (send canvas refresh)]))
+         (set-world-state! current-world "running")
+         current-world]
+        [else current-world]))
 
 ; is the game over
-(define (end world)
+(define (end world w h)
   (or (equal? (world-clicks world) click-limit)
-      (> (matrix-ref (world-playerpos world) 0 0) size)
+      (> (matrix-ref (world-playerpos world) 0 0) w)
       (< (matrix-ref (world-playerpos world) 0 0) 0)
-      (> (matrix-ref (world-playerpos world) 0 1) size)
+      (> (matrix-ref (world-playerpos world) 0 1) h)
       (< (matrix-ref (world-playerpos world) 0 1) 0)))
 
+(define (start w)
+  (fiat-lux w))
 
-(define toplevel (new frame% [label "Spin To Win"]
-                      [width width]
-                      [height height]))
-
-(define canvas (new (class canvas% (init) (super-new)
-                      (define/override (on-char event)
-                        (onkey this event))
-                      (define/override (on-event event)
-                        (on-mouse-event this event)))
-                    [parent toplevel]
-                    [stretchable-width width]
-                    [stretchable-height height]
-                    [paint-callback render]))
-
-(define timer (new timer%
-                   [notify-callback tick]
-                   [interval 10]))
-
-(define (run)
-  (set! current-world (struct-copy world base-world))
-  (send toplevel show #t))
-
-(run)
+(module+ main
+  (call-with-chaos
+   (make-gui #:width width #:height height)
+   (λ ()
+     (start (base-world width height)))))
