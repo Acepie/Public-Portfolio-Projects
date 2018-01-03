@@ -1,0 +1,3 @@
+[submodule "Web Projects/React-Text-Adventure"]
+	path = Web Projects/React-Text-Adventure
+	url = git@gitlab.com:Acepie/React-Text-Adventure.git

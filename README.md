@@ -19,28 +19,6 @@ Levels are randomly generated.
 
 Press space to jump
 
-## C# Projects:
-
-##### -2D Sidescroller Demo
-
-Simple Unity scene showcasing a custom player controller
-
-Player has ability to run, jump, and wall jump
-
-Animations based on player state
-
-##### -Painter
-
-Painting application where users can draw ellipses, rectangles, and lines
-
-Users can pick from different shapes and use a color picker to select the color
-
-###### Instructions:
-	Press P to open color dialog
-	Press C to clear the current frame
-	Press S to toggle drawing preview
-	Press Escape to quit
-
 ## Java Projects:
 
 ##### -Music Editor:
@@ -63,6 +41,16 @@ Players control a fish and try to eat smaller fishes while avoiding bigger fishe
 ##### -Automata:
 
 Generate lines in a pattern based on prior lines and bit patterns
+
+## Web Projects:
+
+##### -React Text Adventure:
+
+Framework/Demo application for creating choose you own adventure games
+
+Includes features such as a dialogue tree, inventory system, disabling choices based on items held, and adding context images
+
+Created using Typescript, React, and ParcelJS
 
 ## Racket Projects:
 
@@ -87,3 +75,25 @@ Tetris implemented in Racket
 	q, e 	- Rotate barrel
 	w, s 	- Change power
 	space 	- Fire
+
+## C# Projects:
+
+##### -2D Sidescroller Demo
+
+Simple Unity scene showcasing a custom player controller
+
+Player has ability to run, jump, and wall jump
+
+Animations based on player state
+
+##### -Painter
+
+Painting application where users can draw ellipses, rectangles, and lines
+
+Users can pick from different shapes and use a color picker to select the color
+
+###### Instructions:
+	Press P to open color dialog
+	Press C to clear the current frame
+	Press S to toggle drawing preview
+	Press Escape to quit
