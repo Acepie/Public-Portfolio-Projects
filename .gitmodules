@@ -5,5 +5,5 @@
 	path = Java Projects/Music-Editor
 	url = git@github.com:Acepie/Music-Editor.git
 [submodule "C# Projects/PigeonVR"]
-	path = "C# Projects/PigeonVR"
+	path = C# Projects/PigeonVR
 	url = git@github.com:SteveKrueger52/PigeonVR.git
