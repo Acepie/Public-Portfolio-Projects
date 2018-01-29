@@ -1,3 +1,9 @@
 [submodule "Web Projects/React-Text-Adventure"]
 	path = Web Projects/React-Text-Adventure
 	url = git@gitlab.com:Acepie/React-Text-Adventure.git
+[submodule "Java Projects/Music-Editor"]
+	path = Java Projects/Music-Editor
+	url = git@github.com:Acepie/Music-Editor.git
+[submodule "C# Projects/PigeonVR"]
+	path = "C# Projects/PigeonVR"
+	url = git@github.com:SteveKrueger52/PigeonVR.git

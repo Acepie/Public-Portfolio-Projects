@@ -25,9 +25,6 @@ Press space to jump
 
 ###### Completed in collaboration with Jonah Min
 
-###### Moved to [private repository](https://github.com/Acepie/Music-Editor) due to risk of plagiarism
-###### For access to repo [email me here](mailto:radwan.a@husky.neu.edu)
-
 GUI application that allows user to read, write, and play music.
 
 Music can be loaded from text files
@@ -78,13 +75,11 @@ Tetris implemented in Racket
 
 ## C# Projects:
 
-##### -2D Sidescroller Demo
+##### -PigeonHold
 
-Simple Unity scene showcasing a custom player controller
+Unity VR game created for global game jam 2018
 
-Player has ability to run, jump, and wall jump
-
-Animations based on player state
+Players grab pigeons, attach letters to them, and send them to different locations based on the message attached
 
 ##### -Painter
 
