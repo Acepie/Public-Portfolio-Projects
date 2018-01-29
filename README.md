@@ -19,25 +19,25 @@ Levels are randomly generated.
 
 Press space to jump
 
-## Java Projects:
+## C# Projects:
 
-##### -Music Editor:
+##### -PigeonHold
 
-###### Completed in collaboration with Jonah Min
+Unity VR game created for global game jam 2018
 
-GUI application that allows user to read, write, and play music.
+Players grab pigeons, attach letters to them, and send them to different locations based on the message attached
 
-Music can be loaded from text files
+##### -Painter
 
-Supports various instruments
+Painting application where users can draw ellipses, rectangles, and lines
 
-##### -Fish Game:
+Users can pick from different shapes and use a color picker to select the color
 
-Players control a fish and try to eat smaller fishes while avoiding bigger fishes
-
-##### -Automata:
-
-Generate lines in a pattern based on prior lines and bit patterns
+###### Instructions:
+	Press P to open color dialog
+	Press C to clear the current frame
+	Press S to toggle drawing preview
+	Press Escape to quit
 
 ## Web Projects:
 
@@ -73,22 +73,22 @@ Tetris implemented in Racket
 	w, s 	- Change power
 	space 	- Fire
 
-## C# Projects:
+## Java Projects:
 
-##### -PigeonHold
+##### -Music Editor:
 
-Unity VR game created for global game jam 2018
+###### Completed in collaboration with Jonah Min
 
-Players grab pigeons, attach letters to them, and send them to different locations based on the message attached
+GUI application that allows user to read, write, and play music.
 
-##### -Painter
+Music can be loaded from text files
 
-Painting application where users can draw ellipses, rectangles, and lines
+Supports various instruments
 
-Users can pick from different shapes and use a color picker to select the color
+##### -Fish Game:
 
-###### Instructions:
-	Press P to open color dialog
-	Press C to clear the current frame
-	Press S to toggle drawing preview
-	Press Escape to quit
+Players control a fish and try to eat smaller fishes while avoiding bigger fishes
+
+##### -Automata:
+
+Generate lines in a pattern based on prior lines and bit patterns
