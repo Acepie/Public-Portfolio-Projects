@@ -27,6 +27,10 @@ Unity VR game created for global game jam 2018
 
 Players grab pigeons, attach letters to them, and send them to different locations based on the message attached
 
+[Project information](https://globalgamejam.org/2018/games/pigeon-hold)
+
+[Trailer](https://youtu.be/s9Cb4Q3h3bI)
+
 ##### -Painter
 
 Painting application where users can draw ellipses, rectangles, and lines
