@@ -7,3 +7,6 @@
 [submodule "C# Projects/PigeonVR"]
 	path = C# Projects/PigeonVR
 	url = git@github.com:SteveKrueger52/PigeonVR.git
+[submodule "C# Projects/Team-DAA-DungeonCrawler"]
+	path = C# Projects/Team-DAA-DungeonCrawler
+	url = git@github.com:Acepie/Team-DAA-DungeonCrawler.git

@@ -1,9 +1,0 @@
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\bin\Debug\WindowsFormsQuickStart.exe.config
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\bin\Debug\WindowsFormsQuickStart.exe
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\bin\Debug\WindowsFormsQuickStart.pdb
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\Painter.csprojResolveAssemblyReference.cache
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.PaintSurface.resources
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.Properties.Resources.resources
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\Painter.csproj.GenerateResource.Cache
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.exe
-C:\Users\Ameen\Documents\Visual Studio 2015\Projects\WindowsFormsQuickStart\WindowsFormsQuickStart\obj\Debug\WindowsFormsQuickStart.pdb
