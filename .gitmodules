@@ -10,3 +10,7 @@
 [submodule "C# Projects/Team-DAA-DungeonCrawler"]
 	path = C# Projects/Team-DAA-DungeonCrawler
 	url = git@github.com:Acepie/Team-DAA-DungeonCrawler.git
+[submodule "Racket Projects/Tanks"]
+	path = Racket Projects/Tanks
+	url = git@github.com:agrundw/HH2.git
+	branch = classes
