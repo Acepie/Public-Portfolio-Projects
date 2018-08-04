@@ -55,6 +55,12 @@ Includes features such as a dialogue tree, inventory system, disabling choices b
 
 Created using Typescript, React, and ParcelJS
 
+### React Text Adventure Node Editor
+
+Visual Graph editor to accompany [React Text Adventure](#React-Text-Adventure). Allows for adding, editing, and deleting of nodes and edges as well as importing/exporting json files.
+
+Created using Typescript, React, and ParcelJS
+
 ## Racket Projects
 
 ### Tanks

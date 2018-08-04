@@ -14,3 +14,6 @@
 	path = Racket Projects/Tanks
 	url = git@github.com:agrundw/HH2.git
 	branch = classes
+[submodule "Web Projects/React-Text-Adventure-Node-Editor"]
+	path = Web Projects/React-Text-Adventure-Node-Editor
+	url = git@gitlab.com:Acepie/React-Text-Adventure-Node-Editor.git
