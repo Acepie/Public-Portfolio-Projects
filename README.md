@@ -31,7 +31,7 @@ Players grab pigeons, attach letters to them, and send them to different locatio
 
 ### React Text Adventure
 
-Framework/Demo application for creating choose you own adventure games
+Framework/Demo application for creating choose your own adventure games
 
 Includes features such as a dialogue tree, inventory system, disabling choices based on items held, and adding context images
 
