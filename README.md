@@ -27,24 +27,6 @@ Players grab pigeons, attach letters to them, and send them to different locatio
 
 [Trailer](https://youtu.be/s9Cb4Q3h3bI)
 
-## C++ Projects
-
-### Ray Tracer
-
-Basic ray tracer that renders a scene to a .ppm file
-
-Render features include reflection, refraction, and basic lighting
-
-Only supports spheres and triangles for now
-
-### Infinite Runner
-
-Simple infinite runner game using OpenGL and freeglut.
-
-Levels are randomly generated.
-
-Press space to jump
-
 ## Web Projects
 
 ### React Text Adventure
@@ -61,11 +43,27 @@ Visual Graph editor to accompany [React Text Adventure](#React-Text-Adventure). 
 
 Created using Typescript, React, and ParcelJS
 
+## C++ Projects
+
+### Ray Tracer
+
+Basic ray tracer that renders a scene to a .ppm file
+
+Render features include reflection, refraction, and basic lighting
+
+Supports spheres and triangles
+
+### Infinite Runner
+
+Simple infinite runner game using OpenGL and freeglut.
+
+Levels are randomly generated.
+
+Press space to jump
+
 ## Racket Projects
 
 ### Tanks
-
-#### Completed in collaboration with [Alex Grundwerg](https://github.com/agrundw)
 
 2 player turn based tank game based on game [Pocket Tanks](http://www.blitwise.com/ptanks.html)
 
