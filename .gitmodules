@@ -4,12 +4,6 @@
 [submodule "Java Projects/Music-Editor"]
 	path = Java Projects/Music-Editor
 	url = git@github.com:Acepie/Music-Editor.git
-[submodule "Unity Projects/PigeonVR"]
-	path = Unity Projects/PigeonVR
-	url = git@github.com:SteveKrueger52/PigeonVR.git
-[submodule "Unity Projects/Team-DAA-DungeonCrawler"]
-	path = Unity Projects/Team-DAA-DungeonCrawler
-	url = git@github.com:Acepie/Team-DAA-DungeonCrawler.git
 [submodule "Racket Projects/Tanks"]
 	path = Racket Projects/Tanks
 	url = git@github.com:agrundw/HH2.git
@@ -17,3 +11,9 @@
 [submodule "Web Projects/React-Text-Adventure-Node-Editor"]
 	path = Web Projects/React-Text-Adventure-Node-Editor
 	url = git@gitlab.com:Acepie/React-Text-Adventure-Node-Editor.git
+[submodule "Unity Projects/PigeonVR"]
+	path = Unity Projects/PigeonVR
+	url = git@github.com:SteveKrueger52/PigeonVR.git
+[submodule "Unity Projects/DungeonCrawler"]
+	path = Unity Projects/DungeonCrawler
+	url = git@github.com:Acepie/Team-DAA-DungeonCrawler.git
